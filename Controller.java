@@ -59,17 +59,17 @@ public class Controller implements Initializable {
 			this.conn = connect();
 			Statement m_Statement = conn.createStatement();
 			String query = "SELECT * FROM todos";
-		    ResultSet m_ResultSet = m_Statement.executeQuery(query);
+		    	ResultSet m_ResultSet = m_Statement.executeQuery(query);
 		    
-		    while (m_ResultSet.next()) {
-		    	System.out.println(m_ResultSet.getString(1) + ", " + m_ResultSet.getString(2) + ", " + m_ResultSet.getString(3));	
-		    	list.add(new LocalEvent(datePicker.getValue(), m_ResultSet.getString(1)));	
-		    }
+		    	while (m_ResultSet.next()) {
+		    		System.out.println(m_ResultSet.getString(1) + ", " + m_ResultSet.getString(2) + ", " + m_ResultSet.getString(3));	
+		    		list.add(new LocalEvent(datePicker.getValue(), m_ResultSet.getString(1)));	
+		   	 }
 		    
-		    eventList.setItems(list);
-		    nested = Integer.parseInt(m_ResultSet.getString(2));
-		    completed = Boolean.parseBoolean(m_ResultSet.getString(3));
-		    writeData(m_ResultSet.getString(1), nested, completed, conn);
+		        eventList.setItems(list);
+		        nested = Integer.parseInt(m_ResultSet.getString(2));
+		    	completed = Boolean.parseBoolean(m_ResultSet.getString(3));
+		    	writeData(m_ResultSet.getString(1), nested, completed, conn);
 		    
 			} catch (ClassNotFoundException e) {
 				e.printStackTrace();
@@ -118,10 +118,9 @@ public class Controller implements Initializable {
 	@FXML
 	void remove(ActionEvent event) {
 		int index = eventList.getSelectionModel().getSelectedIndex(); // starts at 0
-		list.remove(index); // starts at 1
-		// sql remove from db
-		index ++;
-		String sql = "DELETE FROM todo WHERE todos = '" + index + "' ";
+		list.remove(index + 1); // starts at 1
+		// sql remove from db	
+		String sql = "DELETE FROM todo WHERE todos = '" + (index + 1) + "' ";
 
 		try {
 			conn.prepareStatement(sql);
